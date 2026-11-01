@@ -1,7 +1,7 @@
 import { AppShell, Center, Container, Image } from '@mantine/core';
 import React from 'react';
 
-function Header({ }) {
+function Header() {
 
     return (
         <AppShell.Header

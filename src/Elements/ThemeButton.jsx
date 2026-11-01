@@ -1,7 +1,7 @@
 import { Button, useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 import React from 'react';
 
-function ThemeButton({ }) {
+function ThemeButton() {
     const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   

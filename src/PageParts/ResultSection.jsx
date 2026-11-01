@@ -35,20 +35,20 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                             <Text c="dimmed" size="sm">{translateError}</Text>
                         </Box>
                     ) : translatedTexts[0] === undefined ? selectedLanguages.map((lang, index) => (
-                        <>
-                            <Box key={index} m="md">
+                        <Box key={lang}>
+                            <Box m="md">
                                 <Title mb="xs" order={2}>{lang}</Title>
                                 <Skeleton height={8} radius="xl" />
                                 <Skeleton height={8} mt={6} radius="xl" />
                                 <Skeleton height={8} mt={6} width="70%" radius="xl" />
                             </Box>
                             {index !== selectedLanguages.length - 1 && <Divider size="xs" color='dark.4' />}
-                        </>
+                        </Box>
                     ))
                         :
                         translatedTexts.map((translation, index) => (
-                            <>
-                                <Box key={index} m="md">
+                            <Box key={translation.language}>
+                                <Box m="md">
                                     <Title mb="xs" order={2}>{translation.language}</Title>
                                     <Editor
                                         value={translation.text.join('\n')}
@@ -60,7 +60,7 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                                     />
                                 </Box>
                                 {index !== translatedTexts.length - 1 && <Divider mt="md" size="xs" color='dark.4' />}
-                            </>
+                            </Box>
                         ))}
                 </BoxBase>
             </Stack>

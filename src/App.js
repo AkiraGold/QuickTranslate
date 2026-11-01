@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Axios from "axios";
 import { AppShell, Box} from '@mantine/core';
 import Header from './PageParts/Header';
 import ResultSection from './PageParts/ResultSection';

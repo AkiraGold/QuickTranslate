@@ -2,11 +2,10 @@ import { Accordion, Box, Button, Center, Grid, Group, Stack } from '@mantine/cor
 import LanguageCheckbox from '../Elements/LanguageCheckbox';
 import ThemeButton from '../Elements/ThemeButton';
 import React from 'react';
-import Axios from "axios";
 
 function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages }) {
 
-    function AccordionControl(props: AccordionControlProps) {
+    function AccordionControl(props) {
         return (
             <Center>
                 <Accordion.Control {...props} />
@@ -16,7 +15,7 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                         minWidth: "fit-content",
                         height: "49px",
                     }}
-                    disabled={selectedLanguages == false ? true : false}
+                    disabled={selectedLanguages.length === 0}
                     onClick={handleTranslate}>Translate</Button>
             </Center>
         );
@@ -70,9 +69,8 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                         >
                             <Grid grow>
                                 {['Catalan', 'Czech', 'German', 'Estonian', 'French', 'Hungarian', 'Croatian', 'Italian', 'Polish', 'Russian', 'Slovak', 'Swedish'].map(language => (
-                                    <Grid.Col span={{ base: 6, sm: 4, md: 3, lg: 2 }}>
+                                    <Grid.Col key={language} span={{ base: 6, sm: 4, md: 3, lg: 2 }}>
                                         <LanguageCheckbox
-                                            key={language}
                                             language={language}
                                             checked={selectedLanguages.includes(language)}
                                             onChange={() => handleLanguageCheckboxChange(language)}
