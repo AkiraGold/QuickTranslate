@@ -17,8 +17,10 @@ function App() {
   const [translateError, setTranslateError] = useState(null);
   const [inputError, setInputError] = useState(null);
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [translating, setTranslating] = useState(false);
 
   const handleTranslate = async () => {
+    if (translating) return;
     if (!inputXml.trim()) {
       setInputError('Enter at least one XML entry to translate.');
       return;
@@ -29,9 +31,10 @@ function App() {
     }
 
     setInputError(null);
-    setTranslatedTexts([])
-    setTranslateError(null)
-    switchSection(!inputSection)
+    setTranslatedTexts([]);
+    setTranslateError(null);
+    setTranslating(true);
+    switchSection(false);
     try {
       const restOperation = post({
         apiName: 'QuickTranslateAPI',
@@ -54,6 +57,8 @@ function App() {
       // console.log('POST call failed: ', JSON.parse(e.response.body));
       console.error('Error fetching translation:', e);
       setTranslateError('Translation failed. The backend returned an error.');
+    } finally {
+      setTranslating(false);
     }
   }
 
@@ -91,6 +96,7 @@ function App() {
                 if (inputError) setInputError(null);
               }}
               inputError={inputError}
+              translating={translating}
             />
           </Box>
           <Box

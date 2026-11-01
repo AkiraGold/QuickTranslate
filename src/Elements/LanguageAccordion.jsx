@@ -14,7 +14,7 @@ function selectionSummary(selectedLanguages) {
     return `${shown} +${selectedLanguages.length - 2}`;
 }
 
-function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages }) {
+function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages, translating = false }) {
     const [opened, setOpened] = useState(null);
 
     function AccordionControl(props) {
@@ -27,7 +27,8 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                         minWidth: "fit-content",
                         height: "49px",
                     }}
-                    disabled={selectedLanguages.length === 0}
+                    disabled={selectedLanguages.length === 0 || translating}
+                    loading={translating}
                     onClick={handleTranslate}>Translate</Button>
             </Center>
         );

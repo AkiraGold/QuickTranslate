@@ -8,7 +8,7 @@ import LanguageAccordion from '../Elements/LanguageAccordion';
 const INPUT_PLACEHOLDER = `<string>Hello world</string>
 <title>Welcome back</title>`;
 
-function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError }) {
+function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError, translating }) {
   return (
     <AppShell.Section
       style={{
@@ -53,6 +53,7 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
           handleTranslate={handleTranslate}
           setSelectedLanguages={setSelectedLanguages}
           selectedLanguages={selectedLanguages}
+          translating={translating}
         />
       </Stack>
     </AppShell.Section>
