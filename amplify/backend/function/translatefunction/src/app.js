@@ -29,7 +29,7 @@ app.post('/translate', async function(req, res) {
   const toLanguages = req.body.to;
   const text = req.body.text;
   try {
-    const { translate } = await import('@william5553/translate-google-api');
+    const translate = (await import('google-translate-api-x')).default;
     const translations = [];
     for (const lang of toLanguages) {
       // Extract text between <> and </>
@@ -38,7 +38,7 @@ app.post('/translate', async function(req, res) {
       const translatedTexts = [];
       while ((match = regex.exec(text)) !== null) {
         // Translate the text extracted between <> and </>
-        const translatedText = await translate(match[3], { to: lang });
+        const translatedText = await translate(match[3], { to: lang, client: 'gtx' });
         // Reconstruct the translated text with XML tags and attributes
         const translatedWithTag = `<${match[1]}${match[2]}>${translatedText.text}</${match[1]}>`;
         translatedTexts.push(translatedWithTag);
