@@ -1,9 +1,21 @@
-import { Accordion, Box, Button, Center, Grid, Group, Stack } from '@mantine/core';
+import { Accordion, Box, Button, Center, Grid, Group, Stack, Text } from '@mantine/core';
 import LanguageCheckbox from '../Elements/LanguageCheckbox';
-import React from 'react';
+import React, { useState } from 'react';
 import { LANGUAGE_NAMES } from '../constants/languages';
 
+function selectionSummary(selectedLanguages) {
+    if (selectedLanguages.length === 0) {
+        return 'Select languages';
+    }
+    if (selectedLanguages.length <= 3) {
+        return selectedLanguages.join(', ');
+    }
+    const shown = selectedLanguages.slice(0, 2).join(', ');
+    return `${shown} +${selectedLanguages.length - 2}`;
+}
+
 function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages }) {
+    const [opened, setOpened] = useState(null);
 
     function AccordionControl(props) {
         return (
@@ -37,12 +49,16 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
         setSelectedLanguages([]);
     };
 
+    const summary = selectionSummary(selectedLanguages);
+
     return (
         <Box
             pos="relative"
             w="100%"
         >
             <Accordion
+                value={opened}
+                onChange={setOpened}
                 style={{
                     left: "0",
                     width: '100%',
@@ -59,7 +75,16 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                     }}
                     value="item">
                     <AccordionControl>
-                        Select languages
+                        <Group gap="xs" wrap="nowrap" justify="space-between" pr="xs">
+                            <Text size="sm" truncate>
+                                {summary}
+                            </Text>
+                            <Text size="xs" c="dimmed" style={{ flexShrink: 0 }}>
+                                {selectedLanguages.length === 0
+                                    ? 'click to pick'
+                                    : 'click to change'}
+                            </Text>
+                        </Group>
                     </AccordionControl>
                     <Accordion.Panel>
                         <Stack
