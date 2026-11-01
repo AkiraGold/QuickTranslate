@@ -1,7 +1,7 @@
 import { AppShell, Box, Button, Divider, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
 import Prism from "prismjs";
 import 'prismjs/components/prism-markup';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BoxBase from '../Elements/BoxBase';
 import Editor from 'react-simple-code-editor';
 import { languageLabel } from '../constants/languages';
@@ -16,6 +16,57 @@ function ResultSection({
     onPanelScroll,
 }) {
     const [copiedLanguage, setCopiedLanguage] = useState(null);
+    const [scrollbar, setScrollbar] = useState({ show: false, trackTop: 0, thumbTop: 0, thumbHeight: 0 });
+    const panelRef = useRef(null);
+    const backRef = useRef(null);
+
+    const syncScrollbar = () => {
+        const panel = panelRef.current;
+        const back = backRef.current;
+        if (!panel) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = panel;
+        if (scrollHeight <= clientHeight + 1) {
+            setScrollbar((current) => (current.show ? { ...current, show: false } : current));
+            return;
+        }
+
+        const panelRect = panel.getBoundingClientRect();
+        const backBottom = back
+            ? back.getBoundingClientRect().bottom - panelRect.top
+            : 100;
+        const trackTop = Math.max(0, backBottom + 8);
+        const trackHeight = Math.max(0, clientHeight - trackTop - 8);
+        const thumbHeight = Math.min(
+            trackHeight,
+            Math.max(28, (clientHeight / scrollHeight) * trackHeight)
+        );
+        const maxOffset = Math.max(0, trackHeight - thumbHeight);
+        const thumbTop = trackTop + (scrollTop / (scrollHeight - clientHeight)) * maxOffset;
+
+        setScrollbar({
+            show: trackHeight > 0,
+            trackTop,
+            thumbTop,
+            thumbHeight,
+        });
+    };
+
+    useEffect(() => {
+        const panel = panelRef.current;
+        if (!panel) return undefined;
+
+        syncScrollbar();
+        const frame = requestAnimationFrame(syncScrollbar);
+        const observer = new ResizeObserver(syncScrollbar);
+        observer.observe(panel);
+        if (backRef.current) observer.observe(backRef.current);
+
+        return () => {
+            cancelAnimationFrame(frame);
+            observer.disconnect();
+        };
+    }, [translatedTexts, selectedLanguages, translateError, inputSection]);
 
     const handleCopy = async (language, text) => {
         try {
@@ -32,14 +83,16 @@ function ResultSection({
     return (
         <AppShell.Section className="result-section">
             <Box
+                ref={panelRef}
                 className="result-panel"
                 onScroll={(event) => {
                     const scrolled = event.currentTarget.scrollTop > 4;
                     onPanelScroll?.(scrolled);
+                    syncScrollbar();
                 }}
             >
                 <Stack className="result-content" align="stretch" gap="md" pb="md">
-                    <Box className="result-back">
+                    <Box ref={backRef} className="result-back">
                         <Button
                             fullWidth
                             onClick={(e) => switchSection(!inputSection)}
@@ -101,6 +154,21 @@ function ResultSection({
                     </BoxBase>
                 </Stack>
             </Box>
+            {scrollbar.show && (
+                <Box
+                    className="result-scrollbar"
+                    aria-hidden
+                    style={{ top: scrollbar.trackTop, bottom: 8 }}
+                >
+                    <Box
+                        className="result-scrollbar-thumb"
+                        style={{
+                            top: scrollbar.thumbTop - scrollbar.trackTop,
+                            height: scrollbar.thumbHeight,
+                        }}
+                    />
+                </Box>
+            )}
         </AppShell.Section>
     );
 }

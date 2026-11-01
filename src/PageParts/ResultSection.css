@@ -1,4 +1,5 @@
 .result-section {
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -7,6 +8,12 @@
 .result-panel {
   height: 100%;
   overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.result-panel::-webkit-scrollbar {
+  display: none;
 }
 
 .result-content {
@@ -17,6 +24,26 @@
   position: sticky;
   top: var(--app-shell-header-height, 60px);
   z-index: 4;
+}
+
+.result-scrollbar {
+  position: absolute;
+  right: 3px;
+  width: 5px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.result-scrollbar-thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+:root[data-mantine-color-scheme='light'] .result-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.28);
 }
 
 .result-language .result-copy {
