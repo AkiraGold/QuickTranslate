@@ -17,19 +17,40 @@ function selectionSummary(selectedLanguages) {
 function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages, translating = false }) {
     const [opened, setOpened] = useState(null);
 
+    const isOpen = opened === 'item';
+
     function AccordionControl(props) {
         return (
-            <Center>
-                <Accordion.Control {...props} />
-                <Button
-                    radius="0 19px 0 0"
+            <Center
+                style={{
+                    alignItems: 'stretch',
+                }}
+            >
+                <Accordion.Control
+                    {...props}
                     style={{
-                        minWidth: "fit-content",
-                        height: "49px",
+                        flex: 1,
+                        alignSelf: 'stretch',
+                        minHeight: 49,
+                        // Bleed into item border so hover fill isn’t inset
+                        margin: '-1px 0 -1px -1px',
+                        borderRadius: isOpen ? '20px 0 0 0' : '20px 0 0 20px',
+                    }}
+                />
+                <Button
+                    radius={isOpen ? '0 20px 0 0' : '0 20px 20px 0'}
+                    style={{
+                        minWidth: 'fit-content',
+                        alignSelf: 'stretch',
+                        minHeight: 49,
+                        margin: '-1px -1px -1px 0',
                     }}
                     disabled={selectedLanguages.length === 0 || translating}
                     loading={translating}
-                    onClick={handleTranslate}>Translate</Button>
+                    onClick={handleTranslate}
+                >
+                    Translate
+                </Button>
             </Center>
         );
     }
@@ -70,8 +91,14 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                     item: {
                         '--item-filled-color': 'transparent',
                     },
+                    control: {
+                        borderRadius: isOpen ? '20px 0 0 0' : '20px 0 0 20px',
+                    },
+                    content: {
+                        padding: 'var(--mantine-spacing-sm)',
+                        paddingTop: 'var(--mantine-spacing-xs)',
+                    },
                 }}
-                mb="md"
                 variant="contained"
                 chevronPosition="left"
             >
@@ -96,9 +123,9 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                         <Stack
                             align="stretch"
                             justify="center"
-                            gap="xl"
+                            gap="sm"
                         >
-                            <Grid grow>
+                            <Grid grow gutter="sm">
                                 {LANGUAGE_NAMES.map(language => (
                                     <Grid.Col key={language} span={{ base: 6, sm: 4, md: 3, lg: 2 }}>
                                         <LanguageCheckbox
@@ -110,7 +137,7 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                                 ))}
                             </Grid>
                             <Center>
-                                <Group justify="center">
+                                <Group justify="center" gap="xs">
                                     <Button
                                         onClick={handleCheckAllLanguages}
                                     >

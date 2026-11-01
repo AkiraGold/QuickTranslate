@@ -17,13 +17,45 @@
 }
 
 .result-content {
-  padding-top: var(--app-shell-header-height, 60px);
+  padding-top: var(--app-shell-header-height, 68px);
 }
 
 .result-back {
   position: sticky;
-  top: var(--app-shell-header-height, 60px);
+  top: var(--app-shell-header-height, 68px);
   z-index: 4;
+  /* blur fades into the stack gap without adding to it */
+  padding-bottom: var(--mantine-spacing-sm);
+  margin-bottom: calc(-1 * var(--mantine-spacing-sm));
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.22) 0%,
+    rgba(0, 0, 0, 0.08) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 58%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 58%,
+    transparent 100%
+  );
+}
+
+:root[data-mantine-color-scheme='light'] .result-back {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.2) 55%,
+    transparent 100%
+  );
 }
 
 .result-scrollbar {
@@ -50,20 +82,33 @@
   opacity: 0;
   transform: translateY(2px);
   transition:
-    opacity 220ms ease,
-    transform 220ms ease;
+    opacity 220ms ease 0ms,
+    transform 220ms ease 0ms;
 }
 
 .result-language:hover .result-copy,
-.result-language:focus-within .result-copy,
+.result-language:focus-within .result-copy {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 140ms;
+}
+
 .result-language .result-copy[data-copied='true'] {
   opacity: 1;
   transform: translateY(0);
+  transition-delay: 0ms;
 }
 
 .result-copy-label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   animation: result-copy-fade 220ms ease;
+}
+
+.result-copy-icon {
+  display: block;
+  flex-shrink: 0;
 }
 
 @keyframes result-copy-fade {

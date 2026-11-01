@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AppShell, Box} from '@mantine/core';
+import { AppShell, Box } from '@mantine/core';
 import Header from './PageParts/Header';
 import ResultSection from './PageParts/ResultSection';
 import InputSection from './PageParts/InputSection';
@@ -88,7 +88,7 @@ function App() {
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: 68 }}
       styles={{
         main: {
           paddingTop: 0,
@@ -147,7 +147,6 @@ function App() {
       https://dribbble.com/shots/17464952-Google-Translate-Dark-Mode
       </AppShell.Footer> */}
     </AppShell>
-
   );
 }
 

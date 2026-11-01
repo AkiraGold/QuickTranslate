@@ -11,15 +11,16 @@ const INPUT_PLACEHOLDER = `<string>Hello world</string>
 function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError, translating }) {
   return (
     <AppShell.Section
+      pb="md"
       style={{
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        paddingTop: "var(--app-shell-header-height, 60px)",
+        paddingTop: "var(--app-shell-header-height, 68px)",
         boxSizing: "border-box",
       }}
     >
-      <Stack display="flex" h="100%" direction="column">
+      <Stack display="flex" h="100%" direction="column" gap="sm">
         <Box
           flex={1}
           style={{
