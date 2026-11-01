@@ -15,6 +15,7 @@ function App() {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [translateError, setTranslateError] = useState(null);
   const [inputError, setInputError] = useState(null);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
 
   const handleTranslate = async () => {
     if (!inputXml.trim()) {
@@ -58,9 +59,13 @@ function App() {
   return (
     <AppShell
       header={{ height: 60 }}
-    // padding="md"
+      styles={{
+        main: {
+          paddingTop: 0,
+        },
+      }}
     >
-      <Header />
+      <Header scrolled={!inputSection && headerScrolled} />
       <AppShell.Main
         style={{
           minHeight: "100vh",
@@ -98,10 +103,14 @@ function App() {
             />
             <ResultSection
               translatedTexts={translatedTexts}
-              switchSection={switchSection}
+              switchSection={(next) => {
+                setHeaderScrolled(false);
+                switchSection(next);
+              }}
               inputSection={inputSection}
               selectedLanguages={selectedLanguages}
               translateError={translateError}
+              onPanelScroll={setHeaderScrolled}
             />
           </Box>
         </Box>

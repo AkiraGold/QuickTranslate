@@ -1,12 +1,14 @@
 import { AppShell, Box, Center, Container, Image } from '@mantine/core';
 import React from 'react';
 import ThemeButton from '../Elements/ThemeButton';
+import './Header.css';
 
-function Header() {
+function Header({ scrolled = false }) {
 
     return (
         <AppShell.Header
             withBorder={false}
+            className={`app-header${scrolled ? ' app-header--scrolled' : ''}`}
         >
             <Container
                 h="100%"

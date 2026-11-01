@@ -15,6 +15,8 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
         width: "100%",
         height: "100%",
         overflow: "hidden",
+        paddingTop: "var(--app-shell-header-height, 60px)",
+        boxSizing: "border-box",
       }}
     >
       <Stack display="flex" h="100%" direction="column">
