@@ -4,6 +4,7 @@ import 'prismjs/components/prism-markup';
 import React, { useState } from 'react';
 import BoxBase from '../Elements/BoxBase';
 import Editor from 'react-simple-code-editor';
+import { languageLabel } from '../constants/languages';
 import './ResultSection.css';
 
 function ResultSection({translatedTexts, switchSection, inputSection, selectedLanguages, translateError}) {
@@ -52,7 +53,7 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                     ) : translatedTexts[0] === undefined ? selectedLanguages.map((lang, index) => (
                         <Box key={lang}>
                             <Box m="md">
-                                <Title mb="xs" order={2}>{lang}</Title>
+                                <Title mb="xs" order={2}>{languageLabel(lang)}</Title>
                                 <Skeleton height={8} radius="xl" />
                                 <Skeleton height={8} mt={6} radius="xl" />
                                 <Skeleton height={8} mt={6} width="70%" radius="xl" />
@@ -68,7 +69,7 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                             <Box key={translation.language} className="result-language">
                                 <Box m="md">
                                     <Group justify="space-between" mb="xs" align="center">
-                                        <Title order={2}>{translation.language}</Title>
+                                        <Title order={2}>{languageLabel(translation.language)}</Title>
                                         <Button
                                             className="result-copy"
                                             size="xs"

@@ -20,3 +20,11 @@ export function languageNamesToCodes(names) {
     .map((name) => LANGUAGES.find((language) => language.name === name)?.code)
     .filter(Boolean);
 }
+
+/** e.g. "Polish (pl)" — accepts a language name or code */
+export function languageLabel(nameOrCode) {
+  const language = LANGUAGES.find(
+    (entry) => entry.name === nameOrCode || entry.code === nameOrCode
+  );
+  return language ? `${language.name} (${language.code})` : nameOrCode;
+}
