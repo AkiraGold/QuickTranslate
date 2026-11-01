@@ -3,7 +3,8 @@ import { AppShell, Box} from '@mantine/core';
 import Header from './PageParts/Header';
 import ResultSection from './PageParts/ResultSection';
 import InputSection from './PageParts/InputSection';
-import 'prismjs/themes/prism-tomorrow.min.css'; // Example style, you can use another
+import 'prismjs/themes/prism-tomorrow.min.css';
+import './AppViews.css';
 import { post } from 'aws-amplify/api';
 import { languageNamesToCodes } from './constants/languages';
 import { hasXmlTags } from './constants/xmlTags';
@@ -74,21 +75,11 @@ function App() {
           overflow: "hidden",
         }}
       >
-        <Box
-          style={{
-            position: "relative",
-            height: "100%",
-            width: "100%",
-          }}
-        >
+        <Box className="view-stage">
           <Box
-            style={{
-              height: "100%",
-              width: "100%",
-              position: "absolute",
-              transition: "top 0.7s ease-in-out", // Define transition for the top property
-              top: inputSection ? "0%" : "-100%",
-            }}
+            className="view-layer"
+            data-active={inputSection ? 'true' : 'false'}
+            data-direction={inputSection ? undefined : 'back'}
           >
             <InputSection
               setSelectedLanguages={setSelectedLanguages}
@@ -101,6 +92,11 @@ function App() {
               }}
               inputError={inputError}
             />
+          </Box>
+          <Box
+            className="view-layer"
+            data-active={inputSection ? 'false' : 'true'}
+          >
             <ResultSection
               translatedTexts={translatedTexts}
               switchSection={(next) => {
