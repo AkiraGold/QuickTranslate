@@ -5,10 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@mantine/core/styles.css';
 import { Container, createTheme, MantineProvider } from '@mantine/core';
-import {Amplify} from "aws-amplify"
-import config from "./aws-exports"
+import { Amplify } from 'aws-amplify';
+import { parseAmplifyConfig } from 'aws-amplify/utils';
+import outputs from './amplify_outputs.json';
 
-Amplify.configure(config)
+const amplifyConfig = parseAmplifyConfig(outputs);
+
+Amplify.configure({
+  ...amplifyConfig,
+  API: {
+    ...amplifyConfig.API,
+    REST: outputs.custom?.API,
+  },
+});
 
 const theme = createTheme({
   components: {

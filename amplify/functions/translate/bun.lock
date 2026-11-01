@@ -1,0 +1,15 @@
+{
+  "lockfileVersion": 2,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "translate",
+      "dependencies": {
+        "google-translate-api-x": "^10.7.3",
+      },
+    },
+  },
+  "packages": {
+    "google-translate-api-x": ["google-translate-api-x@10.7.3", "", {}, "sha512-UCLhGMyzUiQQJuUjw6KM4scl4WJjMq5kYbq3eqLHB0KB96XBQ+VV7L/NUpJ9eMfVxXswXxA6xWhAX1h1OdDLZg=="],
+  }
+}
