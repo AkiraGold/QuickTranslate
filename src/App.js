@@ -6,6 +6,7 @@ import InputSection from './PageParts/InputSection';
 import 'prismjs/themes/prism-tomorrow.min.css'; // Example style, you can use another
 import { post } from 'aws-amplify/api';
 import { languageNamesToCodes } from './constants/languages';
+import { hasXmlTags } from './constants/xmlTags';
 
 function App() {
   const [inputSection, switchSection] = useState(true);
@@ -16,12 +17,11 @@ function App() {
   const [inputError, setInputError] = useState(null);
 
   const handleTranslate = async () => {
-    const xmlTagPattern = /<([^>\s]+)([^>]*)>(.*?)<\/\1>/;
     if (!inputXml.trim()) {
       setInputError('Enter at least one XML entry to translate.');
       return;
     }
-    if (!xmlTagPattern.test(inputXml)) {
+    if (!hasXmlTags(inputXml)) {
       setInputError('Input must include paired XML tags, e.g. <string>Hello</string>.');
       return;
     }

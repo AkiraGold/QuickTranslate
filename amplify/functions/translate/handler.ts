@@ -1,5 +1,6 @@
 import type { APIGatewayProxyHandler } from 'aws-lambda';
 import translate from 'google-translate-api-x';
+import { findXmlTags, rebuildXmlTag } from '../../../src/constants/xmlTags';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -20,16 +21,14 @@ export const handler: APIGatewayProxyHandler = async (event) => {
 
     const translations: { language: string; text: string[] }[] = [];
     for (const lang of toLanguages) {
-      const regex = /<([^>\s]+)([^>]*)>(.*?)<\/\1>/g;
-      let match: RegExpExecArray | null;
       const translatedTexts: string[] = [];
-      while ((match = regex.exec(text)) !== null) {
-        const translatedText = await translate(match[3], {
+      for (const part of findXmlTags(text)) {
+        const translatedText = await translate(part.inner, {
           to: lang,
           client: 'gtx',
         } as Parameters<typeof translate>[1]);
         translatedTexts.push(
-          `<${match[1]}${match[2]}>${translatedText.text}</${match[1]}>`
+          rebuildXmlTag({ ...part, inner: translatedText.text })
         );
       }
       translations.push({ language: lang, text: translatedTexts });
