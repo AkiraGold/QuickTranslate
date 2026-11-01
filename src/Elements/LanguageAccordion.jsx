@@ -1,6 +1,5 @@
 import { Accordion, Box, Button, Center, Grid, Group, Stack } from '@mantine/core';
 import LanguageCheckbox from '../Elements/LanguageCheckbox';
-import ThemeButton from '../Elements/ThemeButton';
 import React from 'react';
 import { LANGUAGE_NAMES } from '../constants/languages';
 
@@ -93,7 +92,6 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                                     </Button>
                                 </Group>
                             </Center>
-                            <ThemeButton />
                         </Stack>
                     </Accordion.Panel>
                 </Accordion.Item>

@@ -1,5 +1,6 @@
-import { AppShell, Center, Container, Image } from '@mantine/core';
+import { AppShell, Box, Center, Container, Image } from '@mantine/core';
 import React from 'react';
+import ThemeButton from '../Elements/ThemeButton';
 
 function Header() {
 
@@ -9,7 +10,9 @@ function Header() {
         >
             <Container
                 h="100%"
-                size="xl">
+                size="xl"
+                pos="relative"
+            >
                 <Center
                     pt="md"
                     pb="md"
@@ -30,6 +33,14 @@ function Header() {
                         className='logo'
                     />
                 </Center>
+                <Box
+                    pos="absolute"
+                    top="50%"
+                    right="var(--mantine-spacing-md)"
+                    style={{ transform: 'translateY(-50%)' }}
+                >
+                    <ThemeButton />
+                </Box>
             </Container>
         </AppShell.Header>
     );
