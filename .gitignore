@@ -21,6 +21,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
+
+# bun
+bun-debug.log*
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
