@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppShell, Box} from '@mantine/core';
 import Header from './PageParts/Header';
 import ResultSection from './PageParts/ResultSection';
@@ -6,18 +6,46 @@ import InputSection from './PageParts/InputSection';
 import 'prismjs/themes/prism-tomorrow.min.css';
 import './AppViews.css';
 import { post } from 'aws-amplify/api';
-import { languageNamesToCodes } from './constants/languages';
+import { LANGUAGE_NAMES, languageNamesToCodes } from './constants/languages';
 import { hasXmlTags } from './constants/xmlTags';
+
+const SELECTED_LANGUAGES_KEY = 'quicktranslate.selectedLanguages';
+
+function loadSelectedLanguages() {
+  try {
+    const raw = localStorage.getItem(SELECTED_LANGUAGES_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((name) => LANGUAGE_NAMES.includes(name));
+  } catch {
+    return [];
+  }
+}
 
 function App() {
   const [inputSection, switchSection] = useState(true);
   const [inputXml, setInputXml] = useState('');
   const [translatedTexts, setTranslatedTexts] = useState([]);
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState(loadSelectedLanguages);
   const [translateError, setTranslateError] = useState(null);
   const [inputError, setInputError] = useState(null);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [translating, setTranslating] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(SELECTED_LANGUAGES_KEY, JSON.stringify(selectedLanguages));
+  }, [selectedLanguages]);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape' || inputSection) return;
+      setHeaderScrolled(false);
+      switchSection(true);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [inputSection]);
 
   const handleTranslate = async () => {
     if (translating) return;
@@ -50,11 +78,7 @@ function App() {
       const { body } = await restOperation.response;
       const response = await body.json();
       setTranslatedTexts(response);
-      console.log('POST call succeeded');
-      console.log(response);
-
     } catch (e) {
-      // console.log('POST call failed: ', JSON.parse(e.response.body));
       console.error('Error fetching translation:', e);
       setTranslateError('Translation failed. The backend returned an error.');
     } finally {

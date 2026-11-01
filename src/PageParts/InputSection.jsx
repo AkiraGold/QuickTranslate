@@ -34,12 +34,12 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
             value={inputXml}
             placeholder={INPUT_PLACEHOLDER}
             padding={20}
+            autoFocus
             onValueChange={e => setInputXml(e)}
             highlight={code => Prism.highlight(code, Prism.languages.markup)}
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 14,
-              // fontSize: "1rem",
               minHeight: "100%"
             }}
           />
