@@ -64,7 +64,12 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                     left: "0",
                     width: '100%',
                     borderRadius: "20px",
-                    overflow: "hidden"
+                    overflow: "hidden",
+                }}
+                styles={{
+                    item: {
+                        '--item-filled-color': 'transparent',
+                    },
                 }}
                 mb="md"
                 variant="contained"
@@ -72,7 +77,7 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
             >
                 <Accordion.Item
                     style={{
-                        borderRadius: "20px"
+                        borderRadius: "20px",
                     }}
                     value="item">
                     <AccordionControl>

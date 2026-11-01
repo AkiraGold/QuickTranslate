@@ -1,5 +1,6 @@
-import { AppShell, Box, Center, Container, Image } from '@mantine/core';
+import { AppShell, Box, Center, Container, Group, Image } from '@mantine/core';
 import React from 'react';
+import SiteLinkButton from '../Elements/SiteLinkButton';
 import ThemeButton from '../Elements/ThemeButton';
 import './Header.css';
 
@@ -41,7 +42,10 @@ function Header({ scrolled = false }) {
                     right="var(--mantine-spacing-md)"
                     style={{ transform: 'translateY(-50%)' }}
                 >
-                    <ThemeButton />
+                    <Group gap="xs">
+                        <SiteLinkButton />
+                        <ThemeButton />
+                    </Group>
                 </Box>
             </Container>
         </AppShell.Header>

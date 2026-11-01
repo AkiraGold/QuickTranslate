@@ -25,9 +25,7 @@ function ThemeButton() {
 
     return (
         <ActionIcon
-            variant="light"
-            size="lg"
-            radius="md"
+            size="input-sm"
             aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
             onClick={() => setColorScheme(isDark ? 'light' : 'dark')}
         >

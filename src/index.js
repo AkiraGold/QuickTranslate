@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@mantine/core/styles.css';
-import { Container, createTheme, MantineProvider } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Container, createTheme, MantineProvider } from '@mantine/core';
 import { Amplify } from 'aws-amplify';
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 import outputs from './amplify_outputs.json';
@@ -20,15 +20,32 @@ Amplify.configure({
 });
 
 const theme = createTheme({
-  components: {
-    // TextInput: TextInput.extend({
-    //   defaultProps: {
-    //     bg: 'dark.8',
-    //     variant: 'outline',
-    //   },
-    // }),
-  },
   primaryColor: 'orange',
+  defaultRadius: 'sm',
+  components: {
+    Button: Button.extend({
+      defaultProps: {
+        variant: 'light',
+      },
+    }),
+    ActionIcon: ActionIcon.extend({
+      defaultProps: {
+        variant: 'light',
+      },
+    }),
+    Checkbox: Checkbox.extend({
+      defaultProps: {
+        color: 'orange',
+        radius: 'sm',
+      },
+      vars: () => ({
+        root: {
+          '--checkbox-color': 'var(--mantine-color-orange-light)',
+          '--checkbox-icon-color': 'var(--mantine-color-orange-light-color)',
+        },
+      }),
+    }),
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -129,11 +129,12 @@ function ResultSection({
                                             <Button
                                                 className="result-copy"
                                                 size="xs"
-                                                variant="light"
                                                 data-copied={isCopied || undefined}
                                                 onClick={() => handleCopy(translation.language, value)}
                                             >
-                                                {isCopied ? 'Copied' : 'Copy'}
+                                                <span key={isCopied ? 'copied' : 'copy'} className="result-copy-label">
+                                                    {isCopied ? 'Copied' : 'Copy'}
+                                                </span>
                                             </Button>
                                         </Group>
                                         <Editor

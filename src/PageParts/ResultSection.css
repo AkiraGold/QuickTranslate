@@ -48,17 +48,36 @@
 
 .result-language .result-copy {
   opacity: 0;
-  transition: opacity 120ms ease;
+  transform: translateY(2px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
 }
 
 .result-language:hover .result-copy,
 .result-language:focus-within .result-copy,
 .result-language .result-copy[data-copied='true'] {
   opacity: 1;
+  transform: translateY(0);
+}
+
+.result-copy-label {
+  display: inline-block;
+  animation: result-copy-fade 220ms ease;
+}
+
+@keyframes result-copy-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (hover: none) {
   .result-language .result-copy {
     opacity: 1;
+    transform: none;
   }
 }

@@ -3,11 +3,6 @@
     filter: invert(1) hue-rotate(180deg);
   }
   --mantine-color-body: var(--mantine-color-dark-8) !important;
-
-  .mantine-Checkbox-root:not([data-checked="true"]){
-  .mantine-Checkbox-input{
-    background-color: var(--mantine-color-dark-8);
-  }}
 }
 body {
   
