@@ -26,6 +26,9 @@ yarn.lock
 # bun
 bun-debug.log*
 
+# amplify local pull leftovers
+amplify-backup/
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*

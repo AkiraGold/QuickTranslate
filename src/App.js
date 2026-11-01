@@ -12,9 +12,11 @@ function App() {
   const [inputXml, setInputXml] = useState('');
   const [translatedTexts, setTranslatedTexts] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [translateError, setTranslateError] = useState(null);
 
   const handleTranslate = async () => {
     setTranslatedTexts([])
+    setTranslateError(null)
     switchSection(!inputSection)
     try {
       const restOperation = post({
@@ -66,6 +68,7 @@ function App() {
     } catch (e) {
       // console.log('POST call failed: ', JSON.parse(e.response.body));
       console.error('Error fetching translation:', e);
+      setTranslateError('Translation failed. The backend returned an error.');
     }
   }
 
@@ -111,6 +114,7 @@ function App() {
               switchSection={switchSection}
               inputSection={inputSection}
               selectedLanguages={selectedLanguages}
+              translateError={translateError}
             />
           </Box>
         </Box>

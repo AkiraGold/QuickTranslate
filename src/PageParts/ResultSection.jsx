@@ -1,11 +1,11 @@
-import { AppShell, Box, Button, Divider, Skeleton, Stack, Title } from '@mantine/core';
+import { AppShell, Box, Button, Divider, Skeleton, Stack, Text, Title } from '@mantine/core';
 import Prism from "prismjs";
 import 'prismjs/components/prism-markup';
 import React from 'react';
 import BoxBase from '../Elements/BoxBase';
 import Editor from 'react-simple-code-editor';
 
-function ResultSection({translatedTexts, switchSection, inputSection, selectedLanguages}) {
+function ResultSection({translatedTexts, switchSection, inputSection, selectedLanguages, translateError}) {
     return (
         <AppShell.Section
             style={{
@@ -29,7 +29,12 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                     Back
                 </Button>
                 <BoxBase>
-                    {translatedTexts[0] === undefined ? selectedLanguages.map((lang, index) => (
+                    {translateError ? (
+                        <Box m="md">
+                            <Title mb="xs" order={2}>Translation failed</Title>
+                            <Text c="dimmed" size="sm">{translateError}</Text>
+                        </Box>
+                    ) : translatedTexts[0] === undefined ? selectedLanguages.map((lang, index) => (
                         <>
                             <Box key={index} m="md">
                                 <Title mb="xs" order={2}>{lang}</Title>
