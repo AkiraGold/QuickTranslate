@@ -1,11 +1,14 @@
-import { AppShell, Box, Stack } from '@mantine/core';
+import { AppShell, Box, Stack, Text } from '@mantine/core';
 import React from 'react';
 import Editor from 'react-simple-code-editor';
 import Prism from "prismjs";
 import 'prismjs/components/prism-markup';
 import LanguageAccordion from '../Elements/LanguageAccordion';
 
-function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml }) {
+const INPUT_PLACEHOLDER = `<string>Hello world</string>
+<title>Welcome back</title>`;
+
+function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError }) {
   return (
     <AppShell.Section
       style={{
@@ -19,13 +22,15 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
           flex={1}
           style={{
             overflow: "scroll",
-            border: "1px solid var(--mantine-color-dark-4)",
+            border: inputError
+              ? "1px solid var(--mantine-color-red-6)"
+              : "1px solid var(--mantine-color-dark-4)",
             borderRadius: "20px"
           }}
         >
           <Editor
             value={inputXml}
-            placeholder="Enter XML code..."
+            placeholder={INPUT_PLACEHOLDER}
             padding={20}
             onValueChange={e => setInputXml(e)}
             highlight={code => Prism.highlight(code, Prism.languages.markup)}
@@ -37,6 +42,11 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
             }}
           />
         </Box>
+        {inputError && (
+          <Text c="red.6" size="sm" px="xs">
+            {inputError}
+          </Text>
+        )}
         <LanguageAccordion
           handleTranslate={handleTranslate}
           setSelectedLanguages={setSelectedLanguages}

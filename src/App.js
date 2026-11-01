@@ -13,8 +13,20 @@ function App() {
   const [translatedTexts, setTranslatedTexts] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [translateError, setTranslateError] = useState(null);
+  const [inputError, setInputError] = useState(null);
 
   const handleTranslate = async () => {
+    const xmlTagPattern = /<([^>\s]+)([^>]*)>(.*?)<\/\1>/;
+    if (!inputXml.trim()) {
+      setInputError('Enter at least one XML entry to translate.');
+      return;
+    }
+    if (!xmlTagPattern.test(inputXml)) {
+      setInputError('Input must include paired XML tags, e.g. <string>Hello</string>.');
+      return;
+    }
+
+    setInputError(null);
     setTranslatedTexts([])
     setTranslateError(null)
     switchSection(!inputSection)
@@ -107,7 +119,11 @@ function App() {
               handleTranslate={handleTranslate}
               selectedLanguages={selectedLanguages}
               inputXml={inputXml}
-              setInputXml={setInputXml}
+              setInputXml={(value) => {
+                setInputXml(value);
+                if (inputError) setInputError(null);
+              }}
+              inputError={inputError}
             />
             <ResultSection
               translatedTexts={translatedTexts}
