@@ -114,7 +114,7 @@ function ResultSection({
                                     <Skeleton height={8} mt={6} radius="xl" />
                                     <Skeleton height={8} mt={6} width="70%" radius="xl" />
                                 </Box>
-                                {index !== selectedLanguages.length - 1 && <Divider size="xs" color='dark.4' />}
+                                {index !== selectedLanguages.length - 1 && <Divider size="xs" />}
                             </Box>
                         ))
                             :
@@ -147,7 +147,7 @@ function ResultSection({
                                             }}
                                         />
                                     </Box>
-                                    {index !== translatedTexts.length - 1 && <Divider mt="md" size="xs" color='dark.4' />}
+                                    {index !== translatedTexts.length - 1 && <Divider mt="md" size="xs" />}
                                 </Box>
                                 );
                             })}

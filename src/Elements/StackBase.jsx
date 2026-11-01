@@ -10,7 +10,7 @@ function StackBase({ children }) {
             // bg="dark.5"
             style={{ 
                 borderRadius: "20px",
-                border: "1px solid var(--mantine-color-dark-4)",
+                border: "1px solid var(--mantine-color-default-border)",
             }}
             p={10}
         >

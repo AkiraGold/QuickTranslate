@@ -6,7 +6,7 @@ function BoxBase({ children, style, ...props }) {
         <Box
             style={{ 
                 borderRadius: "20px",
-                border: "1px solid var(--mantine-color-dark-4)",
+                border: "1px solid var(--mantine-color-default-border)",
                 ...style,
             }}
             {...props}

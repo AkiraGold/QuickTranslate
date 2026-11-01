@@ -26,7 +26,7 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
             overflow: "scroll",
             border: inputError
               ? "1px solid var(--mantine-color-red-6)"
-              : "1px solid var(--mantine-color-dark-4)",
+              : "1px solid var(--mantine-color-default-border)",
             borderRadius: "20px"
           }}
         >
