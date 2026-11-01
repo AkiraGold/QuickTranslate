@@ -1,0 +1,16 @@
+.result-language .result-copy {
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.result-language:hover .result-copy,
+.result-language:focus-within .result-copy,
+.result-language .result-copy[data-copied='true'] {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .result-language .result-copy {
+    opacity: 1;
+  }
+}

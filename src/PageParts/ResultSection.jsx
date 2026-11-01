@@ -1,11 +1,26 @@
-import { AppShell, Box, Button, Divider, Skeleton, Stack, Text, Title } from '@mantine/core';
+import { AppShell, Box, Button, Divider, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
 import Prism from "prismjs";
 import 'prismjs/components/prism-markup';
-import React from 'react';
+import React, { useState } from 'react';
 import BoxBase from '../Elements/BoxBase';
 import Editor from 'react-simple-code-editor';
+import './ResultSection.css';
 
 function ResultSection({translatedTexts, switchSection, inputSection, selectedLanguages, translateError}) {
+    const [copiedLanguage, setCopiedLanguage] = useState(null);
+
+    const handleCopy = async (language, text) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            setCopiedLanguage(language);
+            setTimeout(() => {
+                setCopiedLanguage((current) => (current === language ? null : current));
+            }, 1500);
+        } catch (error) {
+            console.error('Copy failed:', error);
+        }
+    };
+
     return (
         <AppShell.Section
             style={{
@@ -46,12 +61,26 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                         </Box>
                     ))
                         :
-                        translatedTexts.map((translation, index) => (
-                            <Box key={translation.language}>
+                        translatedTexts.map((translation, index) => {
+                            const value = translation.text.join('\n');
+                            const isCopied = copiedLanguage === translation.language;
+                            return (
+                            <Box key={translation.language} className="result-language">
                                 <Box m="md">
-                                    <Title mb="xs" order={2}>{translation.language}</Title>
+                                    <Group justify="space-between" mb="xs" align="center">
+                                        <Title order={2}>{translation.language}</Title>
+                                        <Button
+                                            className="result-copy"
+                                            size="xs"
+                                            variant="light"
+                                            data-copied={isCopied || undefined}
+                                            onClick={() => handleCopy(translation.language, value)}
+                                        >
+                                            {isCopied ? 'Copied' : 'Copy'}
+                                        </Button>
+                                    </Group>
                                     <Editor
-                                        value={translation.text.join('\n')}
+                                        value={value}
                                         highlight={code => Prism.highlight(code, Prism.languages.markup)}
                                         style={{
                                             fontFamily: '"Fira code", "Fira Mono", monospace',
@@ -61,7 +90,8 @@ function ResultSection({translatedTexts, switchSection, inputSection, selectedLa
                                 </Box>
                                 {index !== translatedTexts.length - 1 && <Divider mt="md" size="xs" color='dark.4' />}
                             </Box>
-                        ))}
+                            );
+                        })}
                 </BoxBase>
             </Stack>
         </AppShell.Section>
