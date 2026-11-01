@@ -2,6 +2,7 @@ import { Accordion, Box, Button, Center, Grid, Group, Stack } from '@mantine/cor
 import LanguageCheckbox from '../Elements/LanguageCheckbox';
 import ThemeButton from '../Elements/ThemeButton';
 import React from 'react';
+import { LANGUAGE_NAMES } from '../constants/languages';
 
 function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLanguages }) {
 
@@ -30,7 +31,7 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
     };
 
     const handleCheckAllLanguages = () => {
-        setSelectedLanguages(['Catalan', 'Czech', 'German', 'Estonian', 'French', 'Hungarian', 'Croatian', 'Italian', 'Polish', 'Russian', 'Slovak', 'Swedish']);
+        setSelectedLanguages([...LANGUAGE_NAMES]);
     };
 
     const handleUncheckAllLanguages = () => {
@@ -68,7 +69,7 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                             gap="xl"
                         >
                             <Grid grow>
-                                {['Catalan', 'Czech', 'German', 'Estonian', 'French', 'Hungarian', 'Croatian', 'Italian', 'Polish', 'Russian', 'Slovak', 'Swedish'].map(language => (
+                                {LANGUAGE_NAMES.map(language => (
                                     <Grid.Col key={language} span={{ base: 6, sm: 4, md: 3, lg: 2 }}>
                                         <LanguageCheckbox
                                             language={language}

@@ -5,6 +5,7 @@ import ResultSection from './PageParts/ResultSection';
 import InputSection from './PageParts/InputSection';
 import 'prismjs/themes/prism-tomorrow.min.css'; // Example style, you can use another
 import { post } from 'aws-amplify/api';
+import { languageNamesToCodes } from './constants/languages';
 
 function App() {
   const [inputSection, switchSection] = useState(true);
@@ -36,36 +37,7 @@ function App() {
         options: {
             body: {
               text: inputXml,
-              to: selectedLanguages.map(lang => {
-                switch (lang) {
-                  case 'Catalan':
-                    return 'ca';
-                  case 'Czech':
-                    return 'cs';
-                  case 'German':
-                    return 'de';
-                  case 'Estonian':
-                    return 'et';
-                  case 'French':
-                    return 'fr';
-                  case 'Hungarian':
-                    return 'hu';
-                  case 'Croatian':
-                    return 'hr';
-                  case 'Italian':
-                    return 'it';
-                  case 'Polish':
-                    return 'pl';
-                  case 'Russian':
-                    return 'ru';
-                  case 'Slovak':
-                    return 'sk';
-                  case 'Swedish':
-                    return 'sv';
-                  default:
-                    return '';
-                }
-              })
+              to: languageNamesToCodes(selectedLanguages),
             }
           }
       });
