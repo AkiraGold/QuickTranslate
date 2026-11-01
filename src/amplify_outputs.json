@@ -3,7 +3,7 @@
   "custom": {
     "API": {
       "QuickTranslateAPI": {
-        "endpoint": "https://4y4uiu59z2.execute-api.eu-north-1.amazonaws.com/prod/",
+        "endpoint": "https://gpjbsezn9b.execute-api.eu-north-1.amazonaws.com/prod/",
         "region": "eu-north-1",
         "apiName": "QuickTranslateAPI"
       }
