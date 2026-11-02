@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# QuickTranslate
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web app for translating XML-tagged strings into a few languages at once. Tags stay put; only the text inside them gets translated.
 
-## Available Scripts
+Example input:
 
-In the project directory, you can run:
+```xml
+<string>Hello world</string>
+<title>Welcome back</title>
+```
 
-### `yarn start`
+Pick languages, hit Translate, get the same markup back per language.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Input](docs/input-example.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![Results](docs/results-example.png)
 
-### `yarn test`
+## What it does
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Batch translate to: Catalan, Czech, German, Estonian, French, Hungarian, Croatian, Italian, Polish, Russian, Slovak, Swedish
+- Keeps XML-ish tags, translates inner text only
+- Editor with syntax highlighting, copyable results, light/dark theme
+- Backend is Amplify Gen 2 (Lambda + API Gateway)
 
-### `yarn build`
+## Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Frontend:** React 18, CRA, Mantine 7, Prism, Amplify JS v6 (install/build with Bun)
+- **Backend:** Amplify Gen 2, Lambda, API Gateway, `google-translate-api-x` (npm + Node ≥ 22)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Translation has to run on the server. Browser Google Translate calls hit CORS / scraping limits, and we need to parse tags, translate the insides, and rebuild the markup without putting that logic (or rate limits) in the client.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setup
 
-### `yarn eject`
+Needs:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Bun](https://bun.sh) ≥ 1.4 for the frontend
+- Node ≥ 22 + npm ≥ 10 for Gen 2 / `ampx`
+- AWS credentials (`amplify` profile or default)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Frontend = Bun (`bun.lock`). Backend / Hosting backend phase = npm (`package-lock.json`). Don't run sandbox or `pipeline-deploy` with Bun.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+git clone https://github.com/AkiraGold/QuickTranslate.git
+cd QuickTranslate
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+bun install
+npm install          # if you need the backend locally
 
-## Learn More
+npm run sandbox      # or: npm run sandbox:once
+# writes src/amplify_outputs.json
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+bun start            # http://localhost:3000
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Scripts
 
-### Code Splitting
+```bash
+bun start
+bun run build
+bun test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+npm run sandbox
+npm run sandbox:once
+npm run backend:deploy   # production backend (Amplify app / master)
+```
 
-### Analyzing the Bundle Size
+## Layout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```text
+amplify/                    Gen 2 backend (translate function + API)
+docs/                       screenshots for this README
+public/
+scripts/ampx.js             ampx wrapper, outputs go to src/
+src/
+  Elements/
+  PageParts/
+  constants/
+  amplify_outputs.json      generated, don't edit by hand
+amplify.yml                 Amplify Hosting build
+package.json
+```
 
-### Making a Progressive Web App
+## Deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+`amplify.yml` runs backend then frontend:
 
-### Advanced Configuration
+1. `npm ci`, then `ampx pipeline-deploy` (writes `src/amplify_outputs.json`)
+2. Bun install, then `bun run build` (output in `build/`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Or push the backend yourself:
 
-### Deployment
+```bash
+CI=1 npm run backend:deploy
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## License
 
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+All rights reserved.
