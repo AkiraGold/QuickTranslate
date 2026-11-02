@@ -1,15 +1,17 @@
 import { AppShell, Box, Stack, Text } from '@mantine/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Editor from 'react-simple-code-editor';
-import Prism from "prismjs";
-import 'prismjs/components/prism-markup';
 import LanguageAccordion from '../Elements/LanguageAccordion';
+import { highlightMarkup, whenPrismReady } from '../utils/highlightMarkup';
 import './InputSection.css';
 
 const INPUT_PLACEHOLDER = `<string>Hello world</string>
 <title>Welcome back</title>`;
 
 function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError, translating }) {
+  const [, setPrismTick] = useState(0);
+  useEffect(() => whenPrismReady(() => setPrismTick((n) => n + 1)), []);
+
   return (
     <AppShell.Section
       className="input-section"
@@ -39,7 +41,7 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
             padding={20}
             autoFocus
             onValueChange={e => setInputXml(e)}
-            highlight={code => Prism.highlight(code, Prism.languages.markup)}
+            highlight={highlightMarkup}
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 14,

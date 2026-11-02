@@ -1,10 +1,9 @@
 import { AppShell, Box, Button, Divider, Group, Skeleton, Stack, Text, Title } from '@mantine/core';
-import Prism from "prismjs";
-import 'prismjs/components/prism-markup';
 import React, { useEffect, useRef, useState } from 'react';
 import BoxBase from '../Elements/BoxBase';
 import Editor from 'react-simple-code-editor';
 import { languageLabel } from '../constants/languages';
+import { highlightMarkup, whenPrismReady } from '../utils/highlightMarkup';
 import './ResultSection.css';
 
 function CopyIcon() {
@@ -34,8 +33,11 @@ function ResultSection({
 }) {
     const [copiedLanguage, setCopiedLanguage] = useState(null);
     const [scrollbar, setScrollbar] = useState({ show: false, trackTop: 0, thumbTop: 0, thumbHeight: 0 });
+    const [, setPrismTick] = useState(0);
     const panelRef = useRef(null);
     const backRef = useRef(null);
+
+    useEffect(() => whenPrismReady(() => setPrismTick((n) => n + 1)), []);
 
     const syncScrollbar = () => {
         const panel = panelRef.current;
@@ -159,7 +161,7 @@ function ResultSection({
                                             value={value}
                                             onValueChange={() => {}}
                                             readOnly
-                                            highlight={code => Prism.highlight(code, Prism.languages.markup)}
+                                            highlight={highlightMarkup}
                                             style={{
                                                 fontFamily: '"Fira code", "Fira Mono", monospace',
                                                 fontSize: 12,

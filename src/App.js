@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { AppShell, Box } from '@mantine/core';
 import Header from './PageParts/Header';
-import ResultSection from './PageParts/ResultSection';
 import InputSection from './PageParts/InputSection';
-import 'prismjs/themes/prism-tomorrow.min.css';
 import './AppViews.css';
 import { post } from 'aws-amplify/api';
 import { LANGUAGE_NAMES, languageNamesToCodes } from './constants/languages';
 import { hasXmlTags } from './constants/xmlTags';
+
+const ResultSection = lazy(() => import('./PageParts/ResultSection'));
 
 const SELECTED_LANGUAGES_KEY = 'quicktranslate.selectedLanguages';
 
@@ -32,6 +32,7 @@ function App() {
   const [inputError, setInputError] = useState(null);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [translating, setTranslating] = useState(false);
+  const [resultsReady, setResultsReady] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(SELECTED_LANGUAGES_KEY, JSON.stringify(selectedLanguages));
@@ -62,6 +63,8 @@ function App() {
     setTranslatedTexts([]);
     setTranslateError(null);
     setTranslating(true);
+    setResultsReady(true);
+    await import('./PageParts/ResultSection');
     switchSection(false);
     try {
       const restOperation = post({
@@ -116,22 +119,26 @@ function App() {
               translating={translating}
             />
           </Box>
-          <Box
-            className="view-layer"
-            data-active={inputSection ? 'false' : 'true'}
-          >
-            <ResultSection
-              translatedTexts={translatedTexts}
-              switchSection={(next) => {
-                setHeaderScrolled(false);
-                switchSection(next);
-              }}
-              inputSection={inputSection}
-              selectedLanguages={selectedLanguages}
-              translateError={translateError}
-              onPanelScroll={setHeaderScrolled}
-            />
-          </Box>
+          {resultsReady && (
+            <Box
+              className="view-layer"
+              data-active={inputSection ? 'false' : 'true'}
+            >
+              <Suspense fallback={null}>
+                <ResultSection
+                  translatedTexts={translatedTexts}
+                  switchSection={(next) => {
+                    setHeaderScrolled(false);
+                    switchSection(next);
+                  }}
+                  inputSection={inputSection}
+                  selectedLanguages={selectedLanguages}
+                  translateError={translateError}
+                  onPanelScroll={setHeaderScrolled}
+                />
+              </Suspense>
+            </Box>
+          )}
         </Box>
       </AppShell.Main>
       {/* <AppShell.Footer>
