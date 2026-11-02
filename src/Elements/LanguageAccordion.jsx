@@ -1,5 +1,4 @@
-import { Accordion, Box, Button, Center, Grid, Group, Stack, Text } from '@mantine/core';
-import LanguageCheckbox from '../Elements/LanguageCheckbox';
+import { Accordion, Box, Button, Center, Chip, Group, Stack, Text } from '@mantine/core';
 import React, { useState } from 'react';
 import { LANGUAGE_NAMES } from '../constants/languages';
 
@@ -54,14 +53,6 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
             </Center>
         );
     }
-
-    const handleLanguageCheckboxChange = (language) => {
-        if (selectedLanguages.includes(language)) {
-            setSelectedLanguages(selectedLanguages.filter(item => item !== language));
-        } else {
-            setSelectedLanguages([...selectedLanguages, language]);
-        }
-    };
 
     const handleCheckAllLanguages = () => {
         setSelectedLanguages([...LANGUAGE_NAMES]);
@@ -125,17 +116,19 @@ function LanguageAccordion({ handleTranslate, setSelectedLanguages, selectedLang
                             justify="center"
                             gap="sm"
                         >
-                            <Grid grow gutter="sm">
-                                {LANGUAGE_NAMES.map(language => (
-                                    <Grid.Col key={language} span={{ base: 6, sm: 4, md: 3, lg: 2 }}>
-                                        <LanguageCheckbox
-                                            language={language}
-                                            checked={selectedLanguages.includes(language)}
-                                            onChange={() => handleLanguageCheckboxChange(language)}
-                                        />
-                                    </Grid.Col>
-                                ))}
-                            </Grid>
+                            <Chip.Group
+                                multiple
+                                value={selectedLanguages}
+                                onChange={setSelectedLanguages}
+                            >
+                                <Group gap="xs">
+                                    {LANGUAGE_NAMES.map(language => (
+                                        <Chip key={language} value={language}>
+                                            {language}
+                                        </Chip>
+                                    ))}
+                                </Group>
+                            </Chip.Group>
                             <Center>
                                 <Group justify="center" gap="xs">
                                     <Button

@@ -4,6 +4,7 @@ import Editor from 'react-simple-code-editor';
 import Prism from "prismjs";
 import 'prismjs/components/prism-markup';
 import LanguageAccordion from '../Elements/LanguageAccordion';
+import './InputSection.css';
 
 const INPUT_PLACEHOLDER = `<string>Hello world</string>
 <title>Welcome back</title>`;
@@ -11,7 +12,7 @@ const INPUT_PLACEHOLDER = `<string>Hello world</string>
 function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages, inputXml, setInputXml, inputError, translating }) {
   return (
     <AppShell.Section
-      pb="md"
+      className="input-section"
       style={{
         width: "100%",
         height: "100%",
@@ -24,7 +25,8 @@ function InputSection({ setSelectedLanguages, handleTranslate, selectedLanguages
         <Box
           flex={1}
           style={{
-            overflow: "scroll",
+            overflow: "auto",
+            WebkitOverflowScrolling: "touch",
             border: inputError
               ? "1px solid var(--mantine-color-red-6)"
               : "1px solid var(--mantine-color-default-border)",

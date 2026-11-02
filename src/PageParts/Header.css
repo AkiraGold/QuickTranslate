@@ -3,6 +3,27 @@
   transition: background 180ms ease, backdrop-filter 180ms ease;
 }
 
+.app-header-logo {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+
+.app-header .logo {
+  height: 26px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+@media (min-width: 48em) {
+  .app-header .logo {
+    height: 30px;
+  }
+}
+
 .app-header--scrolled {
   background: linear-gradient(
     to bottom,

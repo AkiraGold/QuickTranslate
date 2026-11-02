@@ -1,11 +1,10 @@
-import { AppShell, Box, Center, Container, Group, Image } from '@mantine/core';
+import { AppShell, Container, Group, Image } from '@mantine/core';
 import React from 'react';
 import SiteLinkButton from '../Elements/SiteLinkButton';
 import ThemeButton from '../Elements/ThemeButton';
 import './Header.css';
 
 function Header({ scrolled = false }) {
-
     return (
         <AppShell.Header
             withBorder={false}
@@ -14,39 +13,26 @@ function Header({ scrolled = false }) {
             <Container
                 h="100%"
                 size="xl"
-                pos="relative"
+                px="md"
             >
-                <Center
-                    pt="md"
-                    pb="md"
+                <Group
                     h="100%"
-                    inline
-                    style={{
-                        paddingInlineStart: "calc(var(--app-shell-navbar-offset, 0rem) + var(--app-shell-padding))",
-                        paddingInlineEnd: "calc(var(--app-shell-aside-offset, 0rem) + var(--app-shell-padding))"
-                    }}
+                    justify="space-between"
+                    wrap="nowrap"
+                    gap="sm"
                 >
-                    <Image
-                        style={{
-                            flex: "unset"
-                        }}
-                        h="100%"
-                        src="/logo-no-background.svg"
-                        alt="QuickTranslate logo"
-                        className='logo'
-                    />
-                </Center>
-                <Box
-                    pos="absolute"
-                    top="50%"
-                    right="var(--mantine-spacing-md)"
-                    style={{ transform: 'translateY(-50%)' }}
-                >
-                    <Group gap="xs">
+                    <div className="app-header-logo">
+                        <Image
+                            src="/logo-no-background.svg"
+                            alt="QuickTranslate logo"
+                            className="logo"
+                        />
+                    </div>
+                    <Group gap="xs" wrap="nowrap" style={{ flexShrink: 0 }}>
                         <SiteLinkButton />
                         <ThemeButton />
                     </Group>
-                </Box>
+                </Group>
             </Container>
         </AppShell.Header>
     );

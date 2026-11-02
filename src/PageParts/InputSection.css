@@ -1,0 +1,10 @@
+.input-section {
+  padding-bottom: var(--mantine-spacing-md);
+}
+
+@media (max-width: 40em) {
+  .input-section {
+    padding-bottom: var(--mantine-spacing-xs);
+  }
+}
+

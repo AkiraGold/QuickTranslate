@@ -96,14 +96,7 @@ function App() {
       }}
     >
       <Header scrolled={!inputSection && headerScrolled} />
-      <AppShell.Main
-        style={{
-          minHeight: "100vh",
-          maxHeight: "100vh",
-          height: "100vh",
-          overflow: "hidden",
-        }}
-      >
+      <AppShell.Main className="app-main-viewport">
         <Box className="view-stage">
           <Box
             className="view-layer"

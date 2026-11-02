@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@mantine/core/styles.css';
-import { ActionIcon, Button, Checkbox, Container, createTheme, MantineProvider } from '@mantine/core';
+import { ActionIcon, Button, Checkbox, Chip, Container, createTheme, MantineProvider } from '@mantine/core';
 import { Amplify } from 'aws-amplify';
 import { parseAmplifyConfig } from 'aws-amplify/utils';
 import outputs from './amplify_outputs.json';
@@ -44,6 +44,14 @@ const theme = createTheme({
           '--checkbox-icon-color': 'var(--mantine-color-orange-light-color)',
         },
       }),
+    }),
+    Chip: Chip.extend({
+      defaultProps: {
+        color: 'orange',
+        variant: 'light',
+        radius: 'sm',
+        size: 'sm',
+      },
     }),
   },
 });
